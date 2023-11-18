@@ -15,6 +15,9 @@ export default function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // console.log("newItem", newItem)
+    // console.log("newItem.name", newItem.name)
+    newItem.name = "ユーザー名";
     await axios.post('/api/items', newItem);
     setNewItem({ name: '', description: '' }); // フォームをリセット
     // アイテムリストを更新
@@ -26,12 +29,32 @@ export default function Home() {
     setNewItem({ ...newItem, [event.target.name]: event.target.value });
   };
 
-  const getDummyAvatar = (userId) => {
-    return `https://i.pravatar.cc/150?u=${userId}`;
-  }
+  const getDummyAvatar = () => {
+    // ここで適当なユーザーIDを設定
+    return `https://i.pravatar.cc/150?u=dummyId`;
+  };
 
   return (
     <div className="container mx-auto px-4">
+      <div className="flex items-start space-x-2"> {/* アイテムの垂直方向の位置を揃える */}
+        <img src={getDummyAvatar()} alt="User Avatar" className="w-12 h-12 rounded-full" />
+        <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
+          <textarea
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="description"
+            value={newItem.description}
+            onChange={handleChange}
+            placeholder="詳細を追加..."
+            required
+            rows="3"
+          ></textarea>
+          <div className="flex justify-end mt-2"> {/* ボタンを右に移動 */}
+            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              ポストする
+            </button>
+          </div>
+        </form>
+      </div>
       <div className="divide-y divide-gray-200">
         {items.map(item => (
           <div key={item._id} className="flex items-center space-x-4 py-4">
@@ -44,35 +67,6 @@ export default function Home() {
           </div>
         ))}
       </div>
-
-      <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-4">
-        <div className="mb-4">
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            name="name"
-            value={newItem.name}
-            onChange={handleChange}
-            placeholder="Name"
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            name="description"
-            value={newItem.description}
-            onChange={handleChange}
-            placeholder="Description"
-            required
-            rows="3"
-          ></textarea>
-        </div>
-        <div className="flex justify-end">
-          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Create Item
-          </button>
-        </div>
-      </form>
     </div>
   );
 }
