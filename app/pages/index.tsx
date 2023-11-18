@@ -26,33 +26,31 @@ export default function Home() {
     setNewItem({ ...newItem, [event.target.name]: event.target.value });
   };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          value={newItem.name}
-          onChange={handleChange}
-          placeholder="Name"
-          required
-        />
-        <textarea
-          name="description"
-          value={newItem.description}
-          onChange={handleChange}
-          placeholder="Description"
-          required
-        />
-        <button type="submit">Create Item</button>
-      </form>
+  const getDummyAvatar = (userId) => {
+    return `https://i.pravatar.cc/150?u=${userId}`;
+  }
 
-      <ul>
+  return (
+    <div className="container mx-auto px-4">
+      <div className="divide-y divide-gray-200">
         {items.map(item => (
-          <li key={item._id}>
-            {item._id} - {item.name} - {item.description}
-          </li>
+          <div key={item._id} className="flex items-center space-x-4 py-4">
+            {/* ダミーのアイコンを使用します */}
+            <img src={`https://i.pravatar.cc/150?u=${item._id}`} alt="Profile" className="w-10 h-10 rounded-full" />
+            <div className="flex-1">
+              <h3 className="font-bold text-sm">{item.name}</h3>
+              <p className="text-xs text-gray-600">{item.description}</p>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
+
+
+
+
+
+
+
