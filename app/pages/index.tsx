@@ -44,6 +44,35 @@ export default function Home() {
           </div>
         ))}
       </div>
+
+      <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-4">
+        <div className="mb-4">
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="name"
+            value={newItem.name}
+            onChange={handleChange}
+            placeholder="Name"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <textarea
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="description"
+            value={newItem.description}
+            onChange={handleChange}
+            placeholder="Description"
+            required
+            rows="3"
+          ></textarea>
+        </div>
+        <div className="flex justify-end">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Create Item
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
