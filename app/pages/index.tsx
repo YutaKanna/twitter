@@ -4,6 +4,12 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import Head from 'next/head';
 import Image from 'next/image';
+import { JwtPayload } from 'jsonwebtoken';
+
+interface CustomJwtPayload extends JwtPayload {
+  userName?: string;
+  userId?: string;
+}
 
 export default function Home() {
   const [tweets, setTweets] = useState([]);
@@ -16,7 +22,7 @@ export default function Home() {
   const getUserInfoFromJWT = () => {
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      const decoded = jwtDecode(token);
+      const decoded = jwtDecode<CustomJwtPayload>(token);
       return { userName: decoded.userName, userId: decoded.userId }; // ユーザー名とIDを返す
     }
     return { userName: '', userId: '' };
