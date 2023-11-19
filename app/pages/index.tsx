@@ -8,15 +8,13 @@ export default function Home() {
   const [newTweet, setNewTweet] = useState({ name: '', description: '' });
   const [userName, setUserName] = useState([]);
 
-  const getUsernameFromJWT = () => {
+  const getUserInfoFromJWT = () => {
     const token = localStorage.getItem('jwtToken');
-    console.log("tokenです", token)
     if (token) {
       const decoded = jwtDecode(token);
-      console.log("decoded", decoded);
-      return decoded.userName; // トークンに含まれるユーザー名
+      return { userName: decoded.userName, userId: decoded.userId }; // ユーザー名とIDを返す
     }
-    return '';
+    return { userName: '', userId: '' };
   };
 
   useEffect(() => {
@@ -25,16 +23,18 @@ export default function Home() {
       setTweets(response.data);
     });
 
-    const userName = getUsernameFromJWT();
-    setUserName(userName);
+    const userInfo = getUserInfoFromJWT();
+    setUserName(userInfo.userName);
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    newTweet.name = "ユーザー名";
+    const userInfo = getUserInfoFromJWT();
+    newTweet.name = userInfo.userName; // JWTから取得したユーザー名を設定
+    newTweet.user_id = userInfo.userId; // JWTから取得したユーザーIDも設定
     await axios.post('/api/tweets', newTweet);
     setNewTweet({ name: '', description: '' }); // フォームをリセット
-    // アイテムリストを更新
+
     const response = await axios.get('/api/tweets');
     setTweets(response.data);
   };
