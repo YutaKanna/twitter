@@ -1,12 +1,18 @@
 import mongoose, { CallbackError } from 'mongoose';
 import bcrypt from 'bcrypt';
 
+interface User extends Document {
+  username: string;
+  password: string;
+  // 他の必要なプロパティをここに追加
+}
+
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
 });
 
-userSchema.pre('save', async function (next) {
+userSchema.pre<User>('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   try {
@@ -23,4 +29,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-export default mongoose.models.User || mongoose.model('User', userSchema);
+// export default mongoose.models.User || mongoose.model('User', userSchema);
+const UserModel = mongoose.model<User>('User', userSchema);
+
+export default mongoose.models.User || UserModel;

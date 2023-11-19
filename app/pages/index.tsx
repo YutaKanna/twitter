@@ -53,6 +53,8 @@ export default function Home() {
       const userInfo = getUserInfoFromJWT();
       const filteredUsers = response.data.filter(user => user._id !== userInfo.userId).slice(0, 3);
       setUsers(filteredUsers);
+      const filteredUsers = response.data.filter((user: User) => user._id !== userInfo.userId).slice(0, 3);
+      setUsers(filteredUsers);
     });
 
     const body = document.querySelector('body');
