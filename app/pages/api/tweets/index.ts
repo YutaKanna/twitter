@@ -41,6 +41,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const decoded = jwtDecode<CustomJwtPayload>(token);
         const userId = decoded.userId;
+        if (!userId) {
+          return res.status(401).json({ message: "Invalid token" });
+        }
         console.log("userId", userId);
 
         // ユーザーIDを使用してフォローしているユーザーのIDを取得
