@@ -57,7 +57,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.status(200).json(tweets);
       } catch (error) {
-        res.status(500).json({ message: "Server error", error: error.message });
+        if (error instanceof Error) {
+          // error が Error オブジェクトの場合、message プロパティにアクセスする
+          res.status(500).json({ message: "Server error", error: error.message });
+        } else {
+          // error が Error オブジェクトでない場合
+          res.status(500).json({ message: "Server error", error: "Unknown error" });
+        }
       }
       break;
     case 'POST':
