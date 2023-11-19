@@ -141,34 +141,40 @@ export default function Home() {
 
           {/* ツイートボックス */}
           <div className="border pb-3 border-gray-200 dark:border-dim-200">
-            <div className="flex p-4">
-              <img className="w-10 h-10 rounded-full"
-                src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-              <textarea className="p-2 dark:text-white text-gray-900 w-full h-16 bg-transparent focus:outline-none resize-none"
-                placeholder="What's happening?"></textarea>
-            </div>
-            <div className="flex p-4 w-full">
-              {/* アイコンボタン（例: 画像アップロードなど）*/}
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              {/* ツイートボタン */}
-              <a href="#" className="font-bold bg-blue-400 text-white rounded-full px-6 ml-auto mr-1 flex items-center">
-                Tweet
-              </a>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="flex p-4">
+                <img className="w-10 h-10 rounded-full"
+                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+                <textarea
+                  className="p-2 dark:text-white text-gray-900 w-full h-16 bg-transparent focus:outline-none resize-none"
+                  name="description"
+                  value={newTweet.description}
+                  onChange={handleChange}
+                  placeholder="What's happening?"></textarea>
+              </div>
+              <div className="flex p-4 w-full">
+                {/* アイコンボタン（例: 画像アップロードなど）*/}
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                {/* ツイートボタン */}
+                <button type="submit" className="font-bold bg-blue-400 text-white rounded-full px-6 ml-auto mr-1 flex items-center">
+                  Tweet
+                </button>
+              </div>
+            </form>
           </div>
           {/* ツイート表示 */}
           <div className="text-center py-4 bg-white dark:bg-dim-900 border border-gray-200 dark:border-dim-200 cursor-pointer text-blue-400 text-sm">
