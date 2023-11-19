@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import Head from 'next/head';
+import Image from 'next/image';
 
 export default function Home() {
   const [tweets, setTweets] = useState([]);
@@ -166,8 +167,8 @@ export default function Home() {
 
           {/* ユーザー */}
           <div className="w-14 xl:w-full mx-auto mt-auto flex justify-between mb-2 rounded-full p-2 cursor-pointer">
-            <img className="w-10 h-10 rounded-full"
-              src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+            <Image className="w-10 h-10 rounded-full"
+              src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" width={400} height={400} />
             <div className="hidden xl:flex flex-col">
               <h4 className="text-gray-800 dark:text-white font-bold text-sm">{userName}</h4>
               <p className="text-gray-400 text-sm">@dummy-username</p>
@@ -187,8 +188,8 @@ export default function Home() {
           <div className="border pb-3 border-gray-200 dark:border-dim-200">
             <form onSubmit={handleSubmit}>
               <div className="flex p-4">
-                <img className="w-10 h-10 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+                <Image className="w-10 h-10 rounded-full"
+                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" width={400} height={400}/>
                 <textarea
                   className="p-2 dark:text-white text-gray-900 w-full h-16 bg-transparent focus:outline-none resize-none"
                   name="description"
@@ -227,37 +228,46 @@ export default function Home() {
           {/* ツイートコンポーネント */}
           {/* ここにツイートの一覧を表示するコンポーネントが来ます */}
           {tweets.map(tweet => (
-            <div className="border border-gray-200 dark:border-dim-200 cursor-pointer pb-4">
-              <div className="flex p-4 pb-0">
-                <img className="h-9 w-9 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-                <p className="ml-2 flex flex-shrink-0 items-center font-medium text-gray-800 dark:text-white">
-                  {tweet.name}
-                  <span className="ml-1 text-sm leading-5 text-gray-400">
-                    @dummy-username . Nov 2
-                  </span>
-                </p>
-              </div>
-              <div className="pl-8 xl:pl-16 pr-4">
-                <p className="w-auto font-medium text-gray-800 dark:text-white">{tweet.description}</p>
-                <img className="rounded-2xl border border-gray-600 my-3 mr-2 w-full"
-                  src="https://images.nature.com/original/magazine-assets/d41586-019-00653-5/d41586-019-00653-5_16459150.jpg"
-                  alt="" />
-                <div className="flex items-center w-full justify-between">
-                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
-                    <i className="fa-solid fa-comment mr-2 text-lg"></i>
-                    12.3 k
-                  </div>
-                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-green-400 dark:hover:text-green-400">
-                    <i className="fa-solid fa-retweet mr-2 text-lg"></i>
-                    14 k
-                  </div>
-                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-red-600 dark:hover:text-red-600">
-                    <i className="fa-solid fa-heart mr-2 text-lg"></i>
-                    14 k
-                  </div>
-                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
-                    <i className="fa-solid fa-share mr-2 text-lg"></i>
+            <div key={tweet._id}>
+              <div className="border border-gray-200 dark:border-dim-200 cursor-pointer pb-4">
+                <div className="flex p-4 pb-0">
+                  <Image className="h-9 w-9 rounded-full"
+                    src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg"
+                    alt=""
+                    width={400}
+                    height={400}
+                     />
+                  <p className="ml-2 flex flex-shrink-0 items-center font-medium text-gray-800 dark:text-white">
+                    {tweet.name}
+                    <span className="ml-1 text-sm leading-5 text-gray-400">
+                      @dummy-username . Nov 2
+                    </span>
+                  </p>
+                </div>
+                <div className="pl-8 xl:pl-16 pr-4">
+                  <p className="w-auto font-medium text-gray-800 dark:text-white">{tweet.description}</p>
+                  <Image className="rounded-2xl border border-gray-600 my-3 mr-2 w-full"
+                    src="https://images.nature.com/original/magazine-assets/d41586-019-00653-5/d41586-019-00653-5_16459150.jpg"
+                    alt=""
+                    width={400}
+                    height={400}
+                     />
+                  <div className="flex items-center w-full justify-between">
+                    <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
+                      <i className="fa-solid fa-comment mr-2 text-lg"></i>
+                      12.3 k
+                    </div>
+                    <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-green-400 dark:hover:text-green-400">
+                      <i className="fa-solid fa-retweet mr-2 text-lg"></i>
+                      14 k
+                    </div>
+                    <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-red-600 dark:hover:text-red-600">
+                      <i className="fa-solid fa-heart mr-2 text-lg"></i>
+                      14 k
+                    </div>
+                    <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
+                      <i className="fa-solid fa-share mr-2 text-lg"></i>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -266,8 +276,12 @@ export default function Home() {
           {/* ダミーを1件だけ表示 */}
           <div className="border border-gray-200 dark:border-dim-200 cursor-pointer pb-4">
             <div className="flex p-4 pb-0">
-              <img className="h-9 w-9 rounded-full"
-                src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+              <Image className="h-9 w-9 rounded-full"
+                src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg"
+                alt=""
+                width={400}
+                height={400}
+                 />
               <p className="ml-2 flex flex-shrink-0 items-center font-medium text-gray-800 dark:text-white">
                 Ag Coding
                 <span className="ml-1 text-sm leading-5 text-gray-400">
@@ -284,8 +298,10 @@ export default function Home() {
                 <br /><br />
                 Simplicity is the soul of efficiency.
               </p>
-              <img className="rounded-2xl border border-gray-600 my-3 mr-2 w-full"
+              <Image className="rounded-2xl border border-gray-600 my-3 mr-2 w-full"
                 src="https://images.nature.com/original/magazine-assets/d41586-019-00653-5/d41586-019-00653-5_16459150.jpg"
+                width={400}
+                height={400}
                 alt="" />
               <div className="flex items-center w-full justify-between">
                 <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
@@ -380,23 +396,28 @@ export default function Home() {
             {/* ユーザーアイテム */}
             {/* この部分も実際のデータに基づいて生成されるべき */}
             {users.map(user => (
-              <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
-                <div className="flex">
-                  <img className="w-10 h-10 rounded-full"
-                    src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-                  <div className="ml-2 text-sm">
-                    <h5 className="text-gray-900 dark:text-white font-bold">
-                      {user.username}
-                    </h5>
-                    <p className="text-gray-400">@dummy-username</p>
+              <div key={user._id}>
+                <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
+                  <div className="flex">
+                    <Image className="w-10 h-10 rounded-full"
+                      src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg"
+                      width={400}
+                      height={400}
+                      alt="" />
+                    <div className="ml-2 text-sm">
+                      <h5 className="text-gray-900 dark:text-white font-bold">
+                        {user.username}
+                      </h5>
+                      <p className="text-gray-400">@dummy-username</p>
+                    </div>
                   </div>
+                  {/* <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a> */}
+                  <button 
+                    onClick={() => handleFollow(user._id)}
+                    className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">
+                    フォロー
+                  </button>
                 </div>
-                {/* <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a> */}
-                <button 
-                  onClick={() => handleFollow(user._id)}
-                  className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">
-                  フォロー
-                </button>
               </div>
             ))}
             {/* その他のユーザーアイテム */}
