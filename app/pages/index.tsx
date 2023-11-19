@@ -8,6 +8,7 @@ export default function Home() {
   const [tweets, setTweets] = useState([]);
   const [users, setUsers] = useState([]);
   const [newTweet, setNewTweet] = useState({ name: '', description: '' });
+  const [newFollow, setNewFollow] = useState([]);
   const [userName, setUserName] = useState([]);
 
   const getUserInfoFromJWT = () => {
@@ -55,6 +56,21 @@ export default function Home() {
   const getDummyAvatar = () => {
     // ここで適当なユーザーIDを設定
     return `https://i.pravatar.cc/150?u=dummyId`;
+  };
+
+  const handleFollow = async (userId) => {
+    const userInfo = getUserInfoFromJWT();
+    if (!userInfo.userId) {
+      console.log('ユーザーは認証されていません');
+      return;
+    }
+
+    const follower_id = userInfo.userId;
+    const followee_id = userId;
+  
+    // newFollow.follower_id = userId;
+    // newFollow.followee_id = userInfo.userId;
+    await axios.post('/api/follows', { follower_id, followee_id });
   };
 
   return (
@@ -306,7 +322,12 @@ export default function Home() {
                     <p className="text-gray-400">@dummy-username</p>
                   </div>
                 </div>
-                <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
+                {/* <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a> */}
+                <button 
+                  onClick={() => handleFollow(user._id)}
+                  className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">
+                  フォロー
+                </button>
               </div>
             ))}
             {/* その他のユーザーアイテム */}
