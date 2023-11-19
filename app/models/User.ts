@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 interface User extends Document {
   username: string;
   password: string;
-  // 他の必要なプロパティをここに追加
+  isModified(path: string): boolean; // この行を追加
 }
 
 const userSchema = new mongoose.Schema({
