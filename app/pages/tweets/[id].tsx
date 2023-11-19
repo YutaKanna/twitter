@@ -1,51 +1,51 @@
-// pages/items/[id].tsx
+// pages/tweets/[id].tsx
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function ItemDetail() {
+export default function TweetDetail() {
   const router = useRouter();
   const { id } = router.query;
-  const [item, setItem] = useState({ name: '', description: '' });
+  const [tweet, setTweet] = useState({ name: '', description: '' });
 
   useEffect(() => {
     if (id) {
-      axios.get(`/api/items/${id}`).then(response => {
-        setItem(response.data);
+      axios.get(`/api/tweets/${id}`).then(response => {
+        setTweet(response.data);
       });
     }
   }, [id]);
 
   const handleUpdate = async () => {
-    await axios.put(`/api/items/${id}`, item);
+    await axios.put(`/api/tweets/${id}`, tweet);
     router.push('/');
   };
 
   const handleDelete = async () => {
-    await axios.delete(`/api/items/${id}`);
+    await axios.delete(`/api/tweets/${id}`);
     router.push('/');
   };
 
   const handleChange = (event) => {
-    setItem({ ...item, [event.target.name]: event.target.value });
+    setTweet({ ...tweet, [event.target.name]: event.target.value });
   };
 
   return (
     <div>
       <input
         name="name"
-        value={item.name}
+        value={tweet.name}
         onChange={handleChange}
         placeholder="Name"
       />
       <textarea
         name="description"
-        value={item.description}
+        value={tweet.description}
         onChange={handleChange}
         placeholder="Description"
       />
-      <button onClick={handleUpdate}>Update Item</button>
-      <button onClick={handleDelete}>Delete Item</button>
+      <button onClick={handleUpdate}>Update Tweet</button>
+      <button onClick={handleDelete}>Delete Tweet</button>
     </div>
   );
 }

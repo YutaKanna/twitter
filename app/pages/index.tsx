@@ -4,8 +4,8 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
-  const [items, setItems] = useState([]);
-  const [newItem, setNewItem] = useState({ name: '', description: '' });
+  const [tweets, setTweets] = useState([]);
+  const [newTweet, setNewTweet] = useState({ name: '', description: '' });
   const [userName, setUserName] = useState([]);
 
   const getUsernameFromJWT = () => {
@@ -21,8 +21,8 @@ export default function Home() {
 
   useEffect(() => {
     // APIからアイテムを取得
-    axios.get('/api/items').then(response => {
-      setItems(response.data);
+    axios.get('/api/tweets').then(response => {
+      setTweets(response.data);
     });
 
     const userName = getUsernameFromJWT();
@@ -31,18 +31,16 @@ export default function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log("newItem", newItem)
-    // console.log("newItem.name", newItem.name)
-    newItem.name = "ユーザー名";
-    await axios.post('/api/items', newItem);
-    setNewItem({ name: '', description: '' }); // フォームをリセット
+    newTweet.name = "ユーザー名";
+    await axios.post('/api/tweets', newTweet);
+    setNewTweet({ name: '', description: '' }); // フォームをリセット
     // アイテムリストを更新
-    const response = await axios.get('/api/items');
-    setItems(response.data);
+    const response = await axios.get('/api/tweets');
+    setTweets(response.data);
   };
 
   const handleChange = (event) => {
-    setNewItem({ ...newItem, [event.target.name]: event.target.value });
+    setNewTweet({ ...newTweet, [event.target.name]: event.target.value });
   };
 
   const getDummyAvatar = () => {
@@ -59,7 +57,7 @@ export default function Home() {
           <textarea
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="description"
-            value={newItem.description}
+            value={newTweet.description}
             onChange={handleChange}
             placeholder="詳細を追加..."
             required
@@ -73,13 +71,13 @@ export default function Home() {
         </form>
       </div>
       <div className="divide-y divide-gray-200">
-        {items.map(item => (
-          <div key={item._id} className="flex items-center space-x-4 py-4">
+        {tweets.map(tweet => (
+          <div key={tweet._id} className="flex items-center space-x-4 py-4">
             {/* ダミーのアイコンを使用します */}
-            <img src={`https://i.pravatar.cc/150?u=${item._id}`} alt="Profile" className="w-10 h-10 rounded-full" />
+            <img src={`https://i.pravatar.cc/150?u=${tweet._id}`} alt="Profile" className="w-10 h-10 rounded-full" />
             <div className="flex-1">
-              <h3 className="font-bold text-sm">{item.name}</h3>
-              <p className="text-xs text-gray-600">{item.description}</p>
+              <h3 className="font-bold text-sm">{tweet.name}</h3>
+              <p className="text-xs text-gray-600">{tweet.description}</p>
             </div>
           </div>
         ))}
