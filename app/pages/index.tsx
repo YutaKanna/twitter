@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import Head from 'next/head';
 import Image from 'next/image';
 import { JwtPayload } from 'jsonwebtoken';
-import User from '../../models/User';
+import { User } from '../../models/User';
 
 interface CustomJwtPayload extends JwtPayload {
   userName?: string;
