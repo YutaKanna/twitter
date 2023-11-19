@@ -22,9 +22,20 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // APIからアイテムを取得
-    axios.get('/api/tweets').then(response => {
-      setTweets(response.data);
+    const token = localStorage.getItem('jwtToken'); // トークンを取得
+
+    // APIからツイートを取得
+    axios.get('/api/tweets', {
+      headers: {
+        'Authorization': `Bearer ${token}` // トークンをヘッダーに設定
+      }
+    })
+    .then(response => {
+      console.log("response.data", response.data)
+      setTweets(response.data); // レスポンスデータを使用
+    })
+    .catch(error => {
+      console.error('Error fetching tweets:', error); // エラーハンドリング
     });
 
     const userInfo = getUserInfoFromJWT();
@@ -355,6 +366,11 @@ export default function Home() {
             <div className="text-blue-400 p-3 cursor-pointer">
               Show more
             </div>
+            {tweets.map(tweet => (
+              <div className="flex-1">
+                <p className="text-xs text-gray-600">{tweet.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

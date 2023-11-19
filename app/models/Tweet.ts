@@ -4,14 +4,17 @@ import mongoose, { Document, Schema } from 'mongoose';
 interface ITweet extends Document {
   name: string;
   description: string;
-  user_id: string;
-  // 他のフィールドを追加することもできます
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
 }
 
 const TweetSchema: Schema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  user_id: { type: String, required: true },
+  user_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
 });
 
 export default mongoose.models.Tweet || mongoose.model<ITweet>('Tweet', TweetSchema);
