@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 mongoose.connect(process.env.MONGODB_URI);
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Only POST requests allowed' });
   }
@@ -26,3 +26,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const token = jwt.sign({ userId: user._id, userName: user.username }, process.env.JWT_SECRET!, { expiresIn: '1h' });
   res.status(200).json({ token });
 };
+
+export default loginUser;
