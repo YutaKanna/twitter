@@ -1,7 +1,7 @@
 import mongoose, { CallbackError } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-interface User extends Document {
+export interface User extends Document {
   username: string;
   password: string;
   isModified(path: string): boolean; // この行を追加
