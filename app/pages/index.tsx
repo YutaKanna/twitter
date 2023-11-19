@@ -6,7 +6,9 @@ import Head from 'next/head';
 
 export default function Home() {
   const [tweets, setTweets] = useState([]);
+  const [users, setUsers] = useState([]);
   const [newTweet, setNewTweet] = useState({ name: '', description: '' });
+  const [newFollow, setNewFollow] = useState([]);
   const [userName, setUserName] = useState([]);
 
   const getUserInfoFromJWT = () => {
@@ -26,6 +28,13 @@ export default function Home() {
 
     const userInfo = getUserInfoFromJWT();
     setUserName(userInfo.userName);
+
+    // ユーザー情報の取得
+    axios.get('/api/users').then(response => {
+      const userInfo = getUserInfoFromJWT();
+      const filteredUsers = response.data.filter(user => user._id !== userInfo.userId).slice(0, 3);
+      setUsers(filteredUsers);
+    });
   }, []);
 
   const handleSubmit = async (event) => {
@@ -47,6 +56,21 @@ export default function Home() {
   const getDummyAvatar = () => {
     // ここで適当なユーザーIDを設定
     return `https://i.pravatar.cc/150?u=dummyId`;
+  };
+
+  const handleFollow = async (userId) => {
+    const userInfo = getUserInfoFromJWT();
+    if (!userInfo.userId) {
+      console.log('ユーザーは認証されていません');
+      return;
+    }
+
+    const follower_id = userInfo.userId;
+    const followee_id = userId;
+  
+    // newFollow.follower_id = userId;
+    // newFollow.followee_id = userInfo.userId;
+    await axios.post('/api/follows', { follower_id, followee_id });
   };
 
   return (
@@ -117,8 +141,8 @@ export default function Home() {
             <img className="w-10 h-10 rounded-full"
               src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
             <div className="hidden xl:flex flex-col">
-              <h4 className="text-gray-800 dark:text-white font-bold text-sm">Ag coding</h4>
-              <p className="text-gray-400 text-sm">@abdoelazizgamal</p>
+              <h4 className="text-gray-800 dark:text-white font-bold text-sm">{userName}</h4>
+              <p className="text-gray-400 text-sm">@dummy-username</p>
             </div>
             <i className="fa-solid fa-chevron-down text-xs hidden xl:flex items-center xl:ml-4 text-gray-800 dark:text-white"></i>
           </div>
@@ -133,34 +157,40 @@ export default function Home() {
 
           {/* ツイートボックス */}
           <div className="border pb-3 border-gray-200 dark:border-dim-200">
-            <div className="flex p-4">
-              <img className="w-10 h-10 rounded-full"
-                src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-              <textarea className="p-2 dark:text-white text-gray-900 w-full h-16 bg-transparent focus:outline-none resize-none"
-                placeholder="What's happening?"></textarea>
-            </div>
-            <div className="flex p-4 w-full">
-              {/* アイコンボタン（例: 画像アップロードなど）*/}
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              <a href="#" className="text-blue-400 rounded-full p-2">
-                <i className="fa-solid fa-image text-lg"></i>
-              </a>
-              {/* ツイートボタン */}
-              <a href="#" className="font-bold bg-blue-400 text-white rounded-full px-6 ml-auto mr-1 flex items-center">
-                Tweet
-              </a>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="flex p-4">
+                <img className="w-10 h-10 rounded-full"
+                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+                <textarea
+                  className="p-2 dark:text-white text-gray-900 w-full h-16 bg-transparent focus:outline-none resize-none"
+                  name="description"
+                  value={newTweet.description}
+                  onChange={handleChange}
+                  placeholder="What's happening?"></textarea>
+              </div>
+              <div className="flex p-4 w-full">
+                {/* アイコンボタン（例: 画像アップロードなど）*/}
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                <a href="#" className="text-blue-400 rounded-full p-2">
+                  <i className="fa-solid fa-image text-lg"></i>
+                </a>
+                {/* ツイートボタン */}
+                <button type="submit" className="font-bold bg-blue-400 text-white rounded-full px-6 ml-auto mr-1 flex items-center">
+                  Tweet
+                </button>
+              </div>
+            </form>
           </div>
           {/* ツイート表示 */}
           <div className="text-center py-4 bg-white dark:bg-dim-900 border border-gray-200 dark:border-dim-200 cursor-pointer text-blue-400 text-sm">
@@ -280,32 +310,26 @@ export default function Home() {
             </h3>
             {/* ユーザーアイテム */}
             {/* この部分も実際のデータに基づいて生成されるべき */}
-            <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
-              <div className="flex">
-                <img className="w-10 h-10 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-                <div className="ml-2 text-sm">
-                  <h5 className="text-gray-900 dark:text-white font-bold">
-                    abdoelazizgamal
-                  </h5>
-                  <p className="text-gray-400">@abdoelazizgamal</p>
+            {users.map(user => (
+              <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
+                <div className="flex">
+                  <img className="w-10 h-10 rounded-full"
+                    src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+                  <div className="ml-2 text-sm">
+                    <h5 className="text-gray-900 dark:text-white font-bold">
+                      {user.username}
+                    </h5>
+                    <p className="text-gray-400">@dummy-username</p>
+                  </div>
                 </div>
+                {/* <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a> */}
+                <button 
+                  onClick={() => handleFollow(user._id)}
+                  className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">
+                  フォロー
+                </button>
               </div>
-              <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
-            </div>
-            <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
-              <div className="flex">
-                <img className="w-10 h-10 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-                <div className="ml-2 text-sm">
-                  <h5 className="text-gray-900 dark:text-white font-bold">
-                    abdoelazizgamal
-                  </h5>
-                  <p className="text-gray-400">@abdoelazizgamal</p>
-                </div>
-              </div>
-              <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
-            </div>
+            ))}
             {/* その他のユーザーアイテム */}
             <div className="text-blue-400 p-3 cursor-pointer">
               Show more
