@@ -226,7 +226,44 @@ export default function Home() {
           </div>
           {/* ツイートコンポーネント */}
           {/* ここにツイートの一覧を表示するコンポーネントが来ます */}
-          {/* <TweetComponent /> */}
+          {tweets.map(tweet => (
+            <div className="border border-gray-200 dark:border-dim-200 cursor-pointer pb-4">
+              <div className="flex p-4 pb-0">
+                <img className="h-9 w-9 rounded-full"
+                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+                <p className="ml-2 flex flex-shrink-0 items-center font-medium text-gray-800 dark:text-white">
+                  {tweet.name}
+                  <span className="ml-1 text-sm leading-5 text-gray-400">
+                    @dummy-username . Nov 2
+                  </span>
+                </p>
+              </div>
+              <div className="pl-8 xl:pl-16 pr-4">
+                <p className="w-auto font-medium text-gray-800 dark:text-white">{tweet.description}</p>
+                <img className="rounded-2xl border border-gray-600 my-3 mr-2 w-full"
+                  src="https://images.nature.com/original/magazine-assets/d41586-019-00653-5/d41586-019-00653-5_16459150.jpg"
+                  alt="" />
+                <div className="flex items-center w-full justify-between">
+                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
+                    <i className="fa-solid fa-comment mr-2 text-lg"></i>
+                    12.3 k
+                  </div>
+                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-green-400 dark:hover:text-green-400">
+                    <i className="fa-solid fa-retweet mr-2 text-lg"></i>
+                    14 k
+                  </div>
+                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-red-600 dark:hover:text-red-600">
+                    <i className="fa-solid fa-heart mr-2 text-lg"></i>
+                    14 k
+                  </div>
+                  <div className="flex items-center dark:text-white text-xs text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
+                    <i className="fa-solid fa-share mr-2 text-lg"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+          {/* ダミーを1件だけ表示 */}
           <div className="border border-gray-200 dark:border-dim-200 cursor-pointer pb-4">
             <div className="flex p-4 pb-0">
               <img className="h-9 w-9 rounded-full"
@@ -366,11 +403,6 @@ export default function Home() {
             <div className="text-blue-400 p-3 cursor-pointer">
               Show more
             </div>
-            {tweets.map(tweet => (
-              <div className="flex-1">
-                <p className="text-xs text-gray-600">{tweet.description}</p>
-              </div>
-            ))}
           </div>
         </div>
       </div>
