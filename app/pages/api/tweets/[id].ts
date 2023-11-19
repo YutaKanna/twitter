@@ -4,7 +4,11 @@ import mongoose from 'mongoose';
 import Tweet from '../../../models/Tweet';
 
 if (!mongoose.connection.readyState) {
-  mongoose.connect(process.env.MONGODB_URI);
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri) {
+    throw new Error('Environment variable MONGODB_URI is not set');
+  }
+  mongoose.connect(mongoUri);
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

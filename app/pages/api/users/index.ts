@@ -3,7 +3,11 @@ import mongoose from 'mongoose';
 import User from '../../../models/User';
 
 if (!mongoose.connection.readyState) {
-  mongoose.connect(process.env.MONGODB_URI);
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri) {
+    throw new Error('Environment variable MONGODB_URI is not set');
+  }
+  mongoose.connect(mongoUri);
 }
 
 // ユーザー情報を取得するためのハンドラ

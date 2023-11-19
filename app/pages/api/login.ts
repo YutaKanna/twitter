@@ -4,7 +4,13 @@ import User from '../../models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-mongoose.connect(process.env.MONGODB_URI);
+if (!mongoose.connection.readyState) {
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri) {
+    throw new Error('Environment variable MONGODB_URI is not set');
+  }
+  mongoose.connect(mongoUri);
+}
 
 const loginUser = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
