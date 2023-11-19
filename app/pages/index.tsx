@@ -6,6 +6,7 @@ import Head from 'next/head';
 
 export default function Home() {
   const [tweets, setTweets] = useState([]);
+  const [users, setUsers] = useState([]);
   const [newTweet, setNewTweet] = useState({ name: '', description: '' });
   const [userName, setUserName] = useState([]);
 
@@ -26,6 +27,13 @@ export default function Home() {
 
     const userInfo = getUserInfoFromJWT();
     setUserName(userInfo.userName);
+
+    // ユーザー情報の取得
+    axios.get('/api/users').then(response => {
+      const userInfo = getUserInfoFromJWT();
+      const filteredUsers = response.data.filter(user => user._id !== userInfo.userId).slice(0, 3);
+      setUsers(filteredUsers);
+    });
   }, []);
 
   const handleSubmit = async (event) => {
@@ -117,8 +125,8 @@ export default function Home() {
             <img className="w-10 h-10 rounded-full"
               src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
             <div className="hidden xl:flex flex-col">
-              <h4 className="text-gray-800 dark:text-white font-bold text-sm">Ag coding</h4>
-              <p className="text-gray-400 text-sm">@abdoelazizgamal</p>
+              <h4 className="text-gray-800 dark:text-white font-bold text-sm">{userName}</h4>
+              <p className="text-gray-400 text-sm">@dummy-username</p>
             </div>
             <i className="fa-solid fa-chevron-down text-xs hidden xl:flex items-center xl:ml-4 text-gray-800 dark:text-white"></i>
           </div>
@@ -280,32 +288,21 @@ export default function Home() {
             </h3>
             {/* ユーザーアイテム */}
             {/* この部分も実際のデータに基づいて生成されるべき */}
-            <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
-              <div className="flex">
-                <img className="w-10 h-10 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-                <div className="ml-2 text-sm">
-                  <h5 className="text-gray-900 dark:text-white font-bold">
-                    abdoelazizgamal
-                  </h5>
-                  <p className="text-gray-400">@abdoelazizgamal</p>
+            {users.map(user => (
+              <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
+                <div className="flex">
+                  <img className="w-10 h-10 rounded-full"
+                    src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
+                  <div className="ml-2 text-sm">
+                    <h5 className="text-gray-900 dark:text-white font-bold">
+                      {user.username}
+                    </h5>
+                    <p className="text-gray-400">@dummy-username</p>
+                  </div>
                 </div>
+                <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
               </div>
-              <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
-            </div>
-            <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
-              <div className="flex">
-                <img className="w-10 h-10 rounded-full"
-                  src="https://pbs.twimg.com/profile_images/1444753598328496128/hCCopfyz_400x400.jpg" alt="" />
-                <div className="ml-2 text-sm">
-                  <h5 className="text-gray-900 dark:text-white font-bold">
-                    abdoelazizgamal
-                  </h5>
-                  <p className="text-gray-400">@abdoelazizgamal</p>
-                </div>
-              </div>
-              <a href="#" className="text-xs font-bold text-blue-400 px-4 py-1 rounded-full border-2 border-blue-400">Follow</a>
-            </div>
+            ))}
             {/* その他のユーザーアイテム */}
             <div className="text-blue-400 p-3 cursor-pointer">
               Show more
