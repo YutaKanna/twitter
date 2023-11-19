@@ -27,7 +27,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(201).json({ message: "フォロー関係が保存されました" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "フォローの保存中にエラーが発生しました", error: error.message });
+      if (error instanceof Error) {
+        // error が Error オブジェクトの場合、message プロパティに安全にアクセスできます
+        res.status(500).json({ message: "フォローの保存中にエラーが発生しました", error: error.message });
+      } else {
+        // error が Error オブジェクトではない場合のハンドリング
+        res.status(500).json({ message: "フォローの保存中にエラーが発生しました", error: "未知のエラー" });
+      }
     }
   } else {
     res.status(400).json({ message: "許可されていないメソッドです" });
