@@ -3,7 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
 import Follow from '../../../models/Follow';
 
-mongoose.connect(process.env.MONGODB_URI);
+if (!mongoose.connection.readyState) {
+  mongoose.connect(process.env.MONGODB_URI);
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {

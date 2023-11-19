@@ -2,7 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
 import User from '../../../models/User';
 
-mongoose.connect(process.env.MONGODB_URI);
+if (!mongoose.connection.readyState) {
+  mongoose.connect(process.env.MONGODB_URI);
+}
 
 // ユーザー情報を取得するためのハンドラ
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
