@@ -10,11 +10,16 @@ userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   try {
-    this.password = await bcrypt.hash(this.password, 10);
+    if (typeof this.password === 'string') {
+      this.password = await bcrypt.hash(this.password, 10);
+    } else {
+      // パスワードがstring型でない場合のエラーハンドリング
+      throw new Error('Password must be a string');
+    }
   } catch (error) {
     return next(error);
   }
-  
+
   next();
 });
 
