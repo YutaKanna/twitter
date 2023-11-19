@@ -10,6 +10,7 @@ export default function Home() {
   const [newTweet, setNewTweet] = useState({ name: '', description: '' });
   const [newFollow, setNewFollow] = useState([]);
   const [userName, setUserName] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const getUserInfoFromJWT = () => {
     const token = localStorage.getItem('jwtToken');
@@ -35,7 +36,23 @@ export default function Home() {
       const filteredUsers = response.data.filter(user => user._id !== userInfo.userId).slice(0, 3);
       setUsers(filteredUsers);
     });
-  }, []);
+
+    const body = document.querySelector('body');
+
+    if (isDarkMode) {
+        document.querySelector('html').classList.add('dark');
+        body.classList.add('dark:bg-dim-900');
+        body.classList.remove('bg-white');
+    } else {
+        document.querySelector('html').classList.remove('dark');
+        body.classList.add('bg-white');
+        body.classList.remove('dark:bg-dim-900');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -248,7 +265,11 @@ export default function Home() {
               <p className="text-gray-500 mb-5 text-sm">
                 Manage your font size, color and background. These settings affect all the Twitter accounts on this browser.
               </p>
-              <a href="#" className="mx-auto w-11 h-11 xl:w-48 flex items-center justify-center bg-blue-400 py-3 rounded-full text-white font-bold">
+              <a 
+                href="javascript:void(0)" 
+                onClick={toggleDarkMode}
+                className="mx-auto w-11 h-11 xl:w-48 flex items-center justify-center bg-blue-400 py-3 rounded-full text-white font-bold"
+              >
                 <i className="fa-solid fa-cloud-moon block xl:hidden text-lg"></i>
                 <span className="hidden xl:block font-bold">Toggle Dark Mode</span>
               </a>
