@@ -46,7 +46,7 @@ export default function Home() {
     });
 
     const userInfo = getUserInfoFromJWT();
-    setUserName(userInfo.userName);
+    setUserName(userInfo.userName ?? '');
 
     // ユーザー情報の取得
     axios.get('/api/users').then(response => {
