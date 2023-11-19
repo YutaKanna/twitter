@@ -5,7 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import Head from 'next/head';
 import Image from 'next/image';
 import { JwtPayload } from 'jsonwebtoken';
-import { User } from '../../models/User';
+// import { User } from '../../models/User';
+import UserModel from '../../models/User';
 
 interface CustomJwtPayload extends JwtPayload {
   userName?: string;
@@ -52,7 +53,7 @@ export default function Home() {
     // ユーザー情報の取得
     axios.get('/api/users').then(response => {
       const userInfo = getUserInfoFromJWT();
-      const filteredUsers = response.data.filter((user: User) => user._id !== userInfo.userId).slice(0, 3);
+      const filteredUsers = response.data.filter((user: UserModel) => user._id !== userInfo.userId).slice(0, 3);
       setUsers(filteredUsers);
     });
 

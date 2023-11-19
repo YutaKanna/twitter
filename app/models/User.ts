@@ -1,7 +1,7 @@
 import mongoose, { CallbackError } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-export interface User extends Document {
+export interface IUser extends mongoose.Document {
   username: string;
   password: string;
   isModified(path: string): boolean; // この行を追加
@@ -29,7 +29,4 @@ userSchema.pre<User>('save', async function (next) {
   next();
 });
 
-// export default mongoose.models.User || mongoose.model('User', userSchema);
-const UserModel = mongoose.model<User>('User', userSchema);
-
-export default mongoose.models.User || UserModel;
+export default mongoose.model<IUser>('User', userSchema);
