@@ -1,16 +1,32 @@
 // pages/index.tsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState({ name: '', description: '' });
+  const [userName, setUserName] = useState([]);
+
+  const getUsernameFromJWT = () => {
+    const token = localStorage.getItem('jwtToken');
+    console.log("tokenです", token)
+    if (token) {
+      const decoded = jwtDecode(token);
+      console.log("decoded", decoded);
+      return decoded.userName; // トークンに含まれるユーザー名
+    }
+    return '';
+  };
 
   useEffect(() => {
     // APIからアイテムを取得
     axios.get('/api/items').then(response => {
       setItems(response.data);
     });
+
+    const userName = getUsernameFromJWT();
+    setUserName(userName);
   }, []);
 
   const handleSubmit = async (event) => {
@@ -38,6 +54,7 @@ export default function Home() {
     <div className="container mx-auto px-4">
       <div className="flex items-start space-x-2"> {/* アイテムの垂直方向の位置を揃える */}
         <img src={getDummyAvatar()} alt="User Avatar" className="w-12 h-12 rounded-full" />
+        <div>{userName}</div>
         <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
           <textarea
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
