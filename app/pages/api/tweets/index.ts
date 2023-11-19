@@ -13,6 +13,10 @@ if (!mongoose.connection.readyState) {
   mongoose.connect(mongoUri);
 }
 
+interface CustomJwtPayload {
+  userId?: string; // カスタムフィールドとしてuserIdを追加
+}
+
 const getFollowingIds = async (userId: string): Promise<string[]> => {
   try {
       // ログインユーザーがフォローしているユーザーのIDリストを取得
@@ -35,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(401).json({ message: "Authentication token is missing" });
         }
 
-        const decoded = jwtDecode(token);
+        const decoded = jwtDecode<CustomJwtPayload>(token);
         const userId = decoded.userId;
         console.log("userId", userId);
 
