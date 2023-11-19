@@ -16,7 +16,7 @@ export default function Home() {
   const [users, setUsers] = useState([]);
   const [newTweet, setNewTweet] = useState({ name: '', description: '' });
   const [newFollow, setNewFollow] = useState([]);
-  const [userName, setUserName] = useState([]);
+  const [userName, setUserName] = useState<string>(''); // 正しい型宣言
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const getUserInfoFromJWT = () => {
