@@ -2,6 +2,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface ITweet extends Document {
+  _id: string;
   name: string;
   description: string;
   user_id: {
