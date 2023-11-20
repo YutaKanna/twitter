@@ -73,7 +73,7 @@ export default function Home() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const userInfo = getUserInfoFromJWT();
     newTweet.name = userInfo.userName; // JWTから取得したユーザー名を設定
@@ -85,7 +85,7 @@ export default function Home() {
     setTweets(response.data);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setNewTweet({ ...newTweet, [event.target.name]: event.target.value });
   };
 
@@ -94,7 +94,7 @@ export default function Home() {
     return `https://i.pravatar.cc/150?u=dummyId`;
   };
 
-  const handleFollow = async (userId) => {
+  const handleFollow = async (userId: any) => {
     const userInfo = getUserInfoFromJWT();
     if (!userInfo.userId) {
       console.log('ユーザーは認証されていません');
