@@ -52,7 +52,7 @@ export default function Home() {
     // ユーザー情報の取得
     axios.get('/api/users').then(response => {
       const userInfo = getUserInfoFromJWT();
-      const filteredUsers = response.data.filter((user: User) => user._id !== userInfo.userId).slice(0, 3);
+      const filteredUsers = response.data.filter((user: IUser) => user._id !== userInfo.userId).slice(0, 3);
       setUsers(filteredUsers);
     });
 
