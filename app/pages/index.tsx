@@ -60,12 +60,12 @@ export default function Home() {
 
     if (isDarkMode) {
       document.querySelector('html')?.classList.add('dark');
-      body.classList.add('dark:bg-dim-900');
-      body.classList.remove('bg-white');
+      document.querySelector('body')?.classList.add('dark:bg-dim-900');
+      document.querySelector('body')?.classList.remove('bg-white');
     } else {
       document.querySelector('html')?.classList.remove('dark');
-      body.classList.add('bg-white');
-      body.classList.remove('dark:bg-dim-900');
+      document.querySelector('body')?.classList.add('bg-white');
+      document.querySelector('body')?.classList.remove('dark:bg-dim-900');
     }
   }, [isDarkMode]);
 
