@@ -15,7 +15,7 @@ interface CustomJwtPayload extends JwtPayload {
 export default function Home() {
   const [tweets, setTweets] = useState([]);
   const [users, setUsers] = useState([]);
-  const [newTweet, setNewTweet] = useState({ name: '', description: '' });
+  const [newTweet, setNewTweet] = useState<{ name: string; description: string; user_id?: string }>({ name: '', description: '' });
   const [newFollow, setNewFollow] = useState([]);
   const [userName, setUserName] = useState<string>(''); // 正しい型宣言
   const [isDarkMode, setIsDarkMode] = useState(false);
