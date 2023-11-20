@@ -26,7 +26,7 @@ export default function TweetDetail() {
     router.push('/');
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setTweet({ ...tweet, [event.target.name]: event.target.value });
   };
 
