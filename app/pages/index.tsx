@@ -59,13 +59,13 @@ export default function Home() {
     const body = document.querySelector('body');
 
     if (isDarkMode) {
-        document.querySelector('html').classList.add('dark');
-        body.classList.add('dark:bg-dim-900');
-        body.classList.remove('bg-white');
+      document.querySelector('html')?.classList.add('dark');
+      body.classList.add('dark:bg-dim-900');
+      body.classList.remove('bg-white');
     } else {
-        document.querySelector('html').classList.remove('dark');
-        body.classList.add('bg-white');
-        body.classList.remove('dark:bg-dim-900');
+      document.querySelector('html')?.classList.remove('dark');
+      body.classList.add('bg-white');
+      body.classList.remove('dark:bg-dim-900');
     }
   }, [isDarkMode]);
 
