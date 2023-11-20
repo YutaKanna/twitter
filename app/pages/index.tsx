@@ -13,7 +13,6 @@ interface CustomJwtPayload extends JwtPayload {
 }
 
 export default function Home() {
-  const [tweets, setTweets] = useState([]);
   const [users, setUsers] = useState([]);
   const [newTweet, setNewTweet] = useState<{ name: string; description: string; user_id?: string }>({ name: '', description: '' });
   const [newFollow, setNewFollow] = useState([]);
@@ -235,7 +234,7 @@ export default function Home() {
           </div>
           {/* ツイートコンポーネント */}
           {/* ここにツイートの一覧を表示するコンポーネントが来ます */}
-          {tweets.map(tweet => (
+          {tweets.map((tweet: any) => (
             <div key={tweet._id}>
               <div className="border border-gray-200 dark:border-dim-200 cursor-pointer pb-4">
                 <div className="flex p-4 pb-0">
@@ -403,7 +402,7 @@ export default function Home() {
             </h3>
             {/* ユーザーアイテム */}
             {/* この部分も実際のデータに基づいて生成されるべき */}
-            {users.map(user => (
+            {users.map((user: any) => (
               <div key={user._id}>
                 <div className="p-5 border-b border-gray-200 dark:border-dim-200 flex justify-between items-center">
                   <div className="flex">
