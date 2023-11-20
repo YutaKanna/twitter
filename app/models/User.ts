@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 export interface IUser extends mongoose.Document {
   username: string;
   password: string;
-  isModified(path: string): boolean; // この行を追加
 }
 
 const userSchema = new mongoose.Schema({
@@ -13,6 +12,8 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre<IUser>('save', async function (next) {
+  // 'this.isModified' は mongoose.Document に含まれているため、
+  // IUser インターフェースから 'isModified' を削除しても使用できます。
   if (!this.isModified('password')) return next();
 
   try {
@@ -22,7 +23,6 @@ userSchema.pre<IUser>('save', async function (next) {
       throw new Error('Password must be a string');
     }
   } catch (error) {
-    // 'error' を 'CallbackError' として扱う
     return next(error as CallbackError);
   }
 
