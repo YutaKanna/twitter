@@ -76,8 +76,9 @@ export default function Home() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     const userInfo = getUserInfoFromJWT();
-    newTweet.name = userInfo.userName; // JWTから取得したユーザー名を設定
-    newTweet.user_id = userInfo.userId; // JWTから取得したユーザーIDも設定
+    // 'userInfo.userName' が 'undefined' の場合には空の文字列を使用
+    newTweet.name = userInfo.userName || '';
+    newTweet.user_id = userInfo.userId;
     await axios.post('/api/tweets', newTweet);
     setNewTweet({ name: '', description: '' }); // フォームをリセット
 
